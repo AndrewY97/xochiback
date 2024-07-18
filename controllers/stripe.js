@@ -4,6 +4,7 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 const stripeController = {
     async hacerPago(req, res) {
+
         const { amount, currency } = req.body;
 
         try {
@@ -19,4 +20,4 @@ const stripeController = {
     },
 }
 
-module.exports=stripeController;
+module.exports = stripeController;

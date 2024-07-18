@@ -101,6 +101,60 @@ const Reservas = {
             console.error('Error al obtener todas las reservas:', err);
             throw err;
         }
+    },
+    async getAllOrdByDate() {
+        try {
+            const [rows] = await pool.promise().query(
+                `SELECT 
+                    r.*, 
+                    e.nombre AS nombre_experiencia,
+                    c.nombre AS nombre_cliente,
+                    c.email,
+                    c.celular
+                 FROM 
+                    reservacion r
+                 INNER JOIN 
+                    experiencias e ON r.id_experiencia = e.id
+                 INNER JOIN 
+                    clientes c ON r.id_cliente = c.id
+                ORDER BY 
+                    r.fecha DESC;`
+
+            );
+
+            return rows;
+        } catch (err) {
+            console.error('Error al obtener todas las reservas ordenadas por fecha:', err);
+            throw err;
+        }
+    },
+    async getByCliente(id_cliente) {
+        try {
+            const [rows] = await pool.promise().query(
+                `SELECT 
+                    r.*, 
+                    e.nombre AS nombre_experiencia,
+                    c.nombre AS nombre_cliente,
+                    c.email,
+                    c.celular
+                 FROM 
+                    reservacion r
+                
+                 INNER JOIN 
+                    experiencias e ON r.id_experiencia = e.id
+                 INNER JOIN 
+                    clientes c ON r.id_cliente = c.id
+                    WHERE r.id_cliente=?;
+                    `,
+                [id_cliente]
+            );
+
+            return rows;
+        } catch (err) {
+            console.error('Error al obtener todas las reservas ordenadas por fecha:', err);
+            throw err;
+        }
     }
+
 }
 module.exports = Reservas;
