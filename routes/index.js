@@ -5,7 +5,7 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const { experienciasController, reservasController, galeriasController, loginController, stripeController } = require('../controllers');
+const { experienciasController, reservasController, galeriasController, loginController, stripeController, promocionesController } = require('../controllers');
 
 router.get('/experiencias', experienciasController.obtenerTodas);
 
@@ -25,5 +25,9 @@ router.get('/login/log', loginController.login);
 
 //rutas de stripe
 router.post('/pagoStripe', stripeController.hacerPago);
+
+//rutas de promo
+router.post('/promociones', promocionesController.crearPromocion);
+router.get('/promociones/getall', promocionesController.getAllPromos);
 
 module.exports = router;

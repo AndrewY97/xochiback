@@ -3,6 +3,7 @@ const reservasController = require('./reservas');
 const galeriasController = require('./galeria');
 const loginController = require('./login');
 const stripeController = require('./stripe');
+const promocionesController = require('./promociones');
 
 module.exports = {
     experienciasController,
@@ -10,4 +11,5 @@ module.exports = {
     galeriasController,
     loginController,
     stripeController,
+    promocionesController,
 };
