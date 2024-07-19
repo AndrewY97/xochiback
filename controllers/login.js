@@ -16,6 +16,37 @@ const loginController = {
             res.status(500).json({ error: 'Error al registrar el usuario' });
         }
     },
+
+    async updateUser(req, res) {
+        const { id_user, user, pass } = req.body;
+
+        try {
+            const actUser = await Login.updateUsuario(id_user, user, pass);
+            res.status(201).json(actUser);
+        } catch (error) {
+            console.error('Error al modificar el usuario:', error);
+            res.status(500).json({ error: 'Hubo un problema al modificar al usuario.' });
+        }
+    },
+    async deleteUser(req, res) {
+        const { id_user } = req.query;
+
+        try {
+            const delUser = await Login.deleteUsuario(id_user);
+            res.status(201).json(delUser);
+        } catch (error) {
+            console.error('Error al eliminar el usuario:', error);
+            res.status(500).json({ error: 'Hubo un problema al eliminar al usuario.' });
+        }
+    },
+    async getAllUsers(req, res) {
+        try {
+            const user = await Login.getAllUsers();
+            res.json(user);
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener los usuarios', error: error.message });
+        }
+    },
     async login(req, res) {
         const { user, pass } = req.body;
 

@@ -15,6 +15,44 @@ const Login = {
             throw err;
         }
     },
+    async updateUsuario(id_user, user, pass) {
+        try {
+            const hashedPassword = await bcrypt.hash(pass, 10);
+            const [result] = await pool.promise().query(
+                'UPDATE usuarios SET pass = ?, user =?  WHERE id = ?',
+                [hashedPassword, user, id_user]
+            );
+            return { id: id_user, user };
+        } catch (err) {
+            console.error('Error modifying user:', err);
+            throw err;
+        }
+    },
+    async getAllUsers() {
+        try {
+            const query = "SELECT * FROM usuarios";
+            const [rows, fields] = await pool.promise().query(query);
+            return rows;
+        } catch (error) {
+            console.error('Error al obtener los usuarios:', error.message);
+            throw error;
+        }
+    },
+    async deleteUsuario(id_user) {
+        try {
+            const deleteResult = await pool.promise().query(
+                'DELETE FROM usuarios WHERE id = ?',
+                [id_user]
+            );
+            if (deleteResult.affectedRows === 0) {
+                throw new Error(`No se encontró ningun usuario con id ${id_user}`);
+            }
+            return { mensaje: `Usuario con id ${id_user} eliminada correctamente` };
+        } catch (err) {
+            console.error('Error al eliminar al usuario:', err);
+            throw err;
+        }
+    },
     async loingUsuario(user, pass) {
         try {
             const [rows] = await pool.promise().query(

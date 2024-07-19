@@ -38,7 +38,7 @@ const promocionesController = {
             const actuPromo = await Promociones.actualizarPromocion(id_promo, descuento, disponibles);
             res.status(201).json(actuPromo);
         } catch (error) {
-            console.error('Error al modificar la nueva promo:', error);
+            console.error('Error al modificar la promo:', error);
             res.status(500).json({ error: 'Hubo un problema al modificar la promo.' });
         }
     },

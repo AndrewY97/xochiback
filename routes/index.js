@@ -22,6 +22,9 @@ router.get('/galeria/getPic/:experiencia', galeriasController.getPictures);
 //Rutas relacionadas al login
 router.post('/login/registrer', loginController.register);
 router.get('/login/log', loginController.login);
+router.get('/login/getall', loginController.getAllUsers);
+router.get('/login/deleteUser', loginController.deleteUser);
+router.post('/login/updateUser', loginController.updateUser);
 
 //rutas de stripe
 router.post('/pagoStripe', stripeController.hacerPago);
