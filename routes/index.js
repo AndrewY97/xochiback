@@ -29,5 +29,7 @@ router.post('/pagoStripe', stripeController.hacerPago);
 //rutas de promo
 router.post('/promociones', promocionesController.crearPromocion);
 router.get('/promociones/getall', promocionesController.getAllPromos);
+router.get('/promociones/deletepromo', promocionesController.eliminarPromo);
+router.post('/promociones/updatepromo', promocionesController.modificarPromocion);
 
 module.exports = router;

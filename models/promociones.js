@@ -26,5 +26,35 @@ const Promociones = {
         }
 
     },
+    async eliminarPromocion(promoId) {
+        try {
+            const deleteResult = await pool.promise().query(
+                'DELETE FROM promo WHERE id = ?',
+                [promoId]
+            );
+            if (deleteResult.affectedRows === 0) {
+                throw new Error(`No se encontró ninguna promoción con id ${promoId}`);
+            }
+            return { mensaje: `Promoción con id ${promoId} eliminada correctamente` };
+        } catch (err) {
+            console.error('Error al eliminar la promoción:', err);
+            throw err;
+        }
+    },
+    async actualizarPromocion(promoId, descuento, disponibles) {
+        try {
+            const updateResult = await pool.promise().query(
+                'UPDATE promo SET descuento = ?, disponibles = ? WHERE id = ?',
+                [descuento, disponibles, promoId]
+            );
+            if (updateResult.affectedRows === 0) {
+                throw new Error(`No se encontró ninguna promoción con id ${promoId}`);
+            }
+            return { id: promoId, descuento, disponibles };
+        } catch (err) {
+            console.error('Error al actualizar la promoción:', err);
+            throw err;
+        }
+    }
 }
 module.exports = Promociones;
