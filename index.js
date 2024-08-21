@@ -9,6 +9,11 @@ app.use(cors());
 app.use(express.json());
 app.use('/', indexRouter);
 
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
+
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
 });

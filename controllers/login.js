@@ -48,12 +48,10 @@ const loginController = {
         }
     },
     async login(req, res) {
-        const { user, pass } = req.body;
-
+        const { user, pass } = req.query;
         if (!user || !pass) {
             return res.status(400).json({ error: 'Todos los campos son obligatorios' });
         }
-
         try {
             const userRecord = await Login.loingUsuario(user, pass);
             res.status(200).json({ message: 'Usuario logeado correctamente', user: userRecord });
@@ -65,7 +63,7 @@ const loginController = {
             }
             res.status(401).json({ error: errorMessage });
         }
-    },
+    }
 };
 
 module.exports = loginController;
