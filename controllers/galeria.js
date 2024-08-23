@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fsPromises = require('fs').promises; // fs.promises para operaciones asincrónicas
 const path = require('path');
 const Galerias = require('../models/galeria');
 
@@ -12,18 +13,18 @@ const galeriasController = {
                 return res.status(400).send('No se subieron archivos');
             }
 
-            const publicDir = path.join(__dirname, '..', 'public');
+            const publicDir = path.join(process.cwd(), 'public');
             const experienciaDir = path.join(publicDir, experiencia);
-            await fs.mkdir(experienciaDir, { recursive: true });
+            await fsPromises.mkdir(experienciaDir, { recursive: true });
 
             const fotosGuardadas = await Promise.all(fotos.map(async (foto) => {
                 const filePath = path.join(experienciaDir, foto.originalname);
                 try {
-                    await fs.access(filePath);
+                    await fsPromises.access(filePath);
                     console.log(`El archivo ${foto.originalname} ya existe. No se guardará nuevamente.`);
                     return null;
                 } catch (err) {
-                    await fs.writeFile(filePath, foto.buffer);
+                    await fsPromises.writeFile(filePath, foto.buffer);
                     const relativePath = path.relative(publicDir, filePath);
                     return {
                         nombre: foto.originalname,
@@ -84,7 +85,7 @@ const galeriasController = {
     async getImage(req, res) {
         try {
             const { experiencia, nombreImagen } = req.params;
-            const imagePath = path.join(__dirname, '..', 'uploads', experiencia, nombreImagen);
+            const imagePath = path.join(process.cwd(), 'public', experiencia, nombreImagen);
 
             if (fs.existsSync(imagePath)) {
                 res.sendFile(imagePath);
