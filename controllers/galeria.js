@@ -1,4 +1,4 @@
-const fs = require('fs').promises;
+const fs = require('fs');
 const path = require('path');
 const Galerias = require('../models/galeria');
 
@@ -13,7 +13,7 @@ const galeriasController = {
             }
 
             const publicDir = path.join(__dirname, '..', 'public');
-            const experienciaDir = path.join(publicDir, 'uploads', experiencia);
+            const experienciaDir = path.join(publicDir, experiencia);
             await fs.mkdir(experienciaDir, { recursive: true });
 
             const fotosGuardadas = await Promise.all(fotos.map(async (foto) => {
@@ -58,12 +58,19 @@ const galeriasController = {
             // Imprimir en consola las fotos obtenidas
             console.log('Fotos obtenidas:', fotos);
 
-            // Procesar las rutas para extraer solo los nombres de las fotos y construir las URLs
-            const fotosConUrls = fotos.map(foto => {
-                const nombre = foto.split('\\').pop(); // Obtener el nombre de la foto desde la ruta
+            const folderPath = path.join(process.cwd(), 'public', experiencia);
+            console.log(folderPath);
+
+            if (!fs.existsSync(folderPath)) {
+                return res.status(404).json({ error: 'La carpeta de la experiencia no existe.' });
+            }
+
+            const fotos2 = fs.readdirSync(folderPath);
+
+            const fotosConUrls = fotos2.map(foto => {
                 return {
-                    nombre,
-                    url: `http://localhost:3000/uploads/${experiencia}/${nombre}`
+                    nombre: foto,
+                    url: `https://ideamia-dev.com/${experiencia}/${foto}`
                 };
             });
 
