@@ -8,6 +8,8 @@ const upload = multer({ storage: storage });
 const { experienciasController, reservasController, galeriasController, loginController, stripeController, promocionesController } = require('../controllers');
 
 router.get('/experiencias', experienciasController.obtenerTodas);
+router.post('/fechaExperiencia', experienciasController.agregarFechaExperiencia);
+router.get('/getFechas', experienciasController.obtenerExperienciasYFechasDesdeHoy);
 
 router.post('/reservas', reservasController.crearNuevaReserva);
 router.post('/reservas/disponibilidad', reservasController.obtenerDisponibilidad);
