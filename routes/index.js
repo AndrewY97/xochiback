@@ -5,7 +5,7 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const { experienciasController, reservasController, galeriasController, loginController, stripeController, promocionesController } = require('../controllers');
+const { experienciasController, reservasController, galeriasController, loginController, stripeController, promocionesController, emailController } = require('../controllers');
 
 router.get('/experiencias', experienciasController.obtenerTodas);
 router.post('/fechaExperiencia', experienciasController.agregarFechaExperiencia);
@@ -36,5 +36,8 @@ router.post('/promociones', promocionesController.crearPromocion);
 router.get('/promociones/getall', promocionesController.getAllPromos);
 router.get('/promociones/deletepromo', promocionesController.eliminarPromo);
 router.post('/promociones/updatepromo', promocionesController.modificarPromocion);
+
+//rutas de email
+router.post('/send-confirmation', emailController.sendConfirmationEmail);
 
 module.exports = router;
