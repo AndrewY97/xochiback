@@ -20,6 +20,7 @@ router.get('/reservas/getOrderByDate', reservasController.getAllOrdByDate);
 // Rutas relacionadas con la galería de imágenes
 router.post('/galeria/uploadPic', upload.array('fotos', 8), galeriasController.uploadPictures);
 router.get('/galeria/getPic/:experiencia', galeriasController.getPictures);
+router.post('/galerias/eliminar', galeriasController.deletePicture);
 
 //Rutas relacionadas al login
 router.post('/login/registrer', loginController.register);

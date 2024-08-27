@@ -81,22 +81,37 @@ const galeriasController = {
             res.status(500).json({ error: 'Hubo un problema al obtener las imágenes.' });
         }
     },
-
-    async getImage(req, res) {
+    async deletePicture(req, res) {
         try {
-            const { experiencia, nombreImagen } = req.params;
-            const imagePath = path.join(process.cwd(), 'public', experiencia, nombreImagen);
+            const { experiencia, nombreImagen } = req.body;
 
-            if (fs.existsSync(imagePath)) {
-                res.sendFile(imagePath);
-            } else {
-                res.status(404).json({ error: 'La imagen solicitada no existe.' });
+            if (!experiencia || !nombreImagen) {
+                return res.status(400).json({ error: 'Faltan parámetros. Asegúrate de proporcionar la experiencia y el nombre de la imagen.' });
             }
+
+            const publicDir = path.join(process.cwd(), 'public');
+            const experienciaDir = path.join(publicDir, experiencia);
+            const filePath = path.join(experienciaDir, nombreImagen);
+
+            // Verificar si el archivo existe
+            try {
+                await fsPromises.access(filePath);
+            } catch (err) {
+                return res.status(404).json({ error: 'La imagen no existe.' });
+            }
+
+            // Eliminar el archivo
+            await fsPromises.unlink(filePath);
+
+            // Eliminar de la base de datos
+
+            console.log(`Imagen ${nombreImagen} eliminada correctamente.`);
+            res.status(200).json({ message: 'Imagen eliminada correctamente.' });
         } catch (error) {
-            console.error('Error al obtener la imagen:', error);
-            res.status(500).json({ error: 'Hubo un problema al obtener la imagen.' });
+            console.error('Error al eliminar la imagen:', error);
+            res.status(500).json({ error: 'Hubo un problema al eliminar la imagen.' });
         }
-    }
+    },
 };
 
 module.exports = galeriasController;
