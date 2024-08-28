@@ -19,10 +19,17 @@ const experienciasController = {
             res.status(500).json({ message: 'Error al insertar la fecha de experiencia', error: error.message });
         }
     },
-
     async obtenerExperienciasYFechasDesdeHoy(req, res) {
         try {
             const { experiencias, fechas } = await Experiencias.obtenerExperienciasYFechasDesdeHoy();
+            res.json(fechas );
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener las experiencias y fechas desde hoy', error: error.message });
+        }
+    },
+    async obtenerExperienciasYFechasDesdeHoy2(req, res) {
+        try {
+            const { experiencias, fechas } = await Experiencias.obtenerExperienciasYFechasDesdeHoy2();
             res.json(fechas );
         } catch (error) {
             res.status(500).json({ message: 'Error al obtener las experiencias y fechas desde hoy', error: error.message });

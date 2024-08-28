@@ -10,6 +10,7 @@ const { experienciasController, reservasController, galeriasController, loginCon
 router.get('/experiencias', experienciasController.obtenerTodas);
 router.post('/fechaExperiencia', experienciasController.agregarFechaExperiencia);
 router.get('/getFechas', experienciasController.obtenerExperienciasYFechasDesdeHoy);
+router.get('/getFechas/n', experienciasController.obtenerExperienciasYFechasDesdeHoy2);
 
 router.post('/reservas', reservasController.crearNuevaReserva);
 router.post('/reservas/disponibilidad', reservasController.obtenerDisponibilidad);

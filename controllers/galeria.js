@@ -99,12 +99,7 @@ const galeriasController = {
             } catch (err) {
                 return res.status(404).json({ error: 'La imagen no existe.' });
             }
-
-            // Eliminar el archivo
             await fsPromises.unlink(filePath);
-
-            // Eliminar de la base de datos
-
             console.log(`Imagen ${nombreImagen} eliminada correctamente.`);
             res.status(200).json({ message: 'Imagen eliminada correctamente.' });
         } catch (error) {
